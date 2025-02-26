@@ -1,0 +1,2 @@
+export const providerNames = "RainbowKitSiweNextAuthProviderWithSession";
+export const providerImports = `import { RainbowKitSiweNextAuthProviderWithSession } from "~~/components/scaffold-eth/RainbowKitSiweNextAuthProviderWithSession";`;

@@ -1,0 +1,13 @@
+{
+    "dependencies": {
+      "@ai-sdk/openai": "^1.1.13",
+      "@coinbase/agentkit": "^0.2.2",
+      "@rainbow-me/rainbowkit-siwe-next-auth": "^0.5.0",
+      "ai": "^4.1.45",
+      "idb-keyval": "^6.2.1",
+      "next-auth": "^4.24.11",
+      "react-markdown": "^10.0.0",
+      "zod": "^3.24.2"
+    }
+  }
+  

@@ -1,0 +1,1 @@
+export const additionalVars = ["AGENT_PRIVATE_KEY=\nOPENAI_API_KEY=\nNEXTAUTH_SECRET="];
