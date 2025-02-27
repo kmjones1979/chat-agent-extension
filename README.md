@@ -5,7 +5,6 @@
 ```bash
 npx create-eth@latest -e azf20/chat-agent-extension
 cd <project-name>
-yarn install
 yarn chain # in one terminal
 yarn deploy # in another terminal
 cp packages/nextjs/.env.example packages/nextjs/.env.local
