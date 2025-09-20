@@ -1,14 +1,14 @@
-
-export const extraPlugins = [
+export const configOverrides = {
+  plugins: [
     {
       name: "next-superjson-plugin"
     },
     {
       name: "@next/mdx"
     }
-  ];
-  
-  export const extraCompilerOptions = {
+  ],
+  compilerOptions: {
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-  };
+  }
+};
