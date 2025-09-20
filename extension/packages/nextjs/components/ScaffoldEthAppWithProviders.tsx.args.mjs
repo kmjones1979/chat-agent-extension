@@ -6,4 +6,4 @@ export const extraProviders = {
 
 export const globalClassNames = "";
 
-export const overrideProviders = [];
+export const overrideProviders = {};
