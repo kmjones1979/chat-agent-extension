@@ -1,15 +1,15 @@
-export const extraWebpackConfig = `
+export const configOverrides = {
+  webpack: `(config, { isServer }) => {
+    config.resolve.fallback = { fs: false, net: false, tls: false };
+    config.externals.push("pino-pretty", "lokijs", "encoding");
+
     // Fix for AgentKit crypto dependencies
-    config.externals.push({
-      '@hpke/core': 'commonjs @hpke/core',
-      '@hpke/common': 'commonjs @hpke/common',
-    });
-    
-    // Ignore dynamic requires in crypto modules
-    config.module = config.module || {};
-    config.module.rules = config.module.rules || [];
-    config.module.rules.push({
-      test: /node_modules\\/@hpke/,
-      use: 'null-loader'
-    });
-`;
+    if (!isServer) {
+      config.module.rules.push({
+        test: /(@hpke\\/core|@hpke\\/common)/,
+        use: 'null-loader',
+      });
+    }
+    return config;
+  }`
+};
