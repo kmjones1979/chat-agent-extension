@@ -3,6 +3,13 @@ import { z } from "zod";
 import deployedContracts from "~~/contracts/deployedContracts";
 import { Hex } from "viem";
 import { encodeFunctionData } from "viem";
+type ContractArgs = {
+    contractName: string;
+    functionName: string;
+    functionArgs: (string | boolean)[];
+    value?: string;
+};
+
 class ContractInteractor extends ActionProvider<WalletProvider> {
     private chainId: keyof typeof deployedContracts;
 
@@ -18,7 +25,7 @@ class ContractInteractor extends ActionProvider<WalletProvider> {
         this.chainId = chainId;
     }
 
-    private validateContract(args: z.infer<typeof ContractInteractor.SCHEMA>) {
+    private validateContract(args: ContractArgs) {
         if (!Object.keys(deployedContracts[this.chainId]).includes(args.contractName)) {
             return {
                 ...args,
@@ -41,7 +48,7 @@ class ContractInteractor extends ActionProvider<WalletProvider> {
         description: "Call a read-only function on a contract (where the mutabilityState is 'view' or 'pure').",
         schema: ContractInteractor.SCHEMA,
     })
-    async readContract(walletProvider: EvmWalletProvider, args: z.infer<typeof ContractInteractor.SCHEMA>) {
+    async readContract(walletProvider: EvmWalletProvider, args: ContractArgs) {
         try {
             const contract = this.validateContract(args);
             if ('error' in contract) return contract.error;
@@ -65,7 +72,7 @@ class ContractInteractor extends ActionProvider<WalletProvider> {
         description: "Call a write function on a contract. Confirm with the user before sending.",
         schema: ContractInteractor.SCHEMA,
     })
-    async writeContract(walletProvider: EvmWalletProvider, args: z.infer<typeof ContractInteractor.SCHEMA>) {
+    async writeContract(walletProvider: EvmWalletProvider, args: ContractArgs) {
         try {
             const contract = this.validateContract(args);
             if ('error' in contract) return contract;

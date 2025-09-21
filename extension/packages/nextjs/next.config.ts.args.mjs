@@ -14,25 +14,40 @@ export const configOverrides = {
       os: false,
       path: false,
       buffer: false,
-      util: false
+      util: false,
+      child_process: false,
+      module: false
     };
     
+    // External dependencies that should not be bundled
     config.externals.push("pino-pretty", "lokijs", "encoding");
-
-    // Fix for AgentKit crypto dependencies and pino logging
+    
     if (!isServer) {
+      // Completely ignore crypto and problematic modules
+      config.externals.push(
+        "@hpke/core",
+        "@hpke/common", 
+        "@hpke/chacha20poly1305",
+        "@privy-io/server-auth",
+        "pino",
+        "pino-pretty"
+      );
+      
+      // Use null-loader for any crypto modules that slip through
       config.module.rules.push({
-        test: /(@hpke|@coinbase\\/agentkit.*@privy-io|pino|chacha20poly1305)/,
+        test: /node_modules\\/((@hpke|@privy-io|pino).*|.*chacha.*|.*crypto.*)\\.js$/,
         use: 'null-loader',
       });
       
-      // Ignore specific problematic modules
+      // Alias problematic modules to false
       config.resolve.alias = {
         ...config.resolve.alias,
-        'pino-pretty': false,
         '@hpke/core': false,
         '@hpke/common': false,
         '@hpke/chacha20poly1305': false,
+        '@privy-io/server-auth': false,
+        'pino': false,
+        'pino-pretty': false,
       };
     }
     return config;
