@@ -1,7 +1,10 @@
 export const preContent = `import { RainbowKitSiweNextAuthProviderWithSession } from "~~/components/scaffold-eth/RainbowKitSiweNextAuthProviderWithSession";`;
 
 export const extraProviders = {
-  "RainbowKitSiweNextAuthProviderWithSession": {}
+  "RainbowKitSiweNextAuthProviderWithSession": {
+    enabled: true,
+    getSiweMessageOptions: "() => ({ statement: \"Sign in to the chat application\" })"
+  }
 };
 
 export const globalClassNames = "";

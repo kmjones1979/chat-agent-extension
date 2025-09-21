@@ -4,6 +4,15 @@ export const CustomConnectButton = () => {
   return (
     <ConnectButton.Custom>
       {({ account, chain, openAccountModal, openChainModal, openConnectModal, authenticationStatus, mounted }) => {
+        // Debug logging
+        console.log("CustomConnectButton Debug:", {
+          account: account?.address,
+          chain: chain?.name,
+          authenticationStatus,
+          mounted,
+          ready: mounted && authenticationStatus !== "loading",
+        });
+
         const ready = mounted && authenticationStatus !== "loading";
         const connected =
           ready && account && chain && (!authenticationStatus || authenticationStatus === "authenticated");
@@ -21,7 +30,14 @@ export const CustomConnectButton = () => {
             {(() => {
               if (!connected) {
                 return (
-                  <button className="btn btn-primary btn-sm" onClick={openConnectModal} type="button">
+                  <button
+                    className="btn btn-primary btn-sm"
+                    onClick={() => {
+                      console.log("Sign in button clicked!");
+                      openConnectModal();
+                    }}
+                    type="button"
+                  >
                     Sign in
                   </button>
                 );
