@@ -3,7 +3,7 @@ export const preContent = `import { RainbowKitSiweNextAuthProviderWithSession } 
 export const extraProviders = {
   "RainbowKitSiweNextAuthProviderWithSession": {
     enabled: true,
-    getSiweMessageOptions: "() => ({ statement: \"Sign in to the chat application\" })"
+    getSiweMessageOptions: () => ({ statement: "Sign in to the chat application" })
   }
 };
 

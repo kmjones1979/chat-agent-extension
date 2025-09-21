@@ -33,8 +33,12 @@ export const CustomConnectButton = () => {
                   <button
                     className="btn btn-primary btn-sm"
                     onClick={() => {
-                      console.log("Sign in button clicked!");
-                      openConnectModal();
+                      console.log("Sign in button clicked!", { authenticationStatus, account, chain });
+                      try {
+                        openConnectModal();
+                      } catch (error) {
+                        console.error("Error opening connect modal:", error);
+                      }
                     }}
                     type="button"
                   >
