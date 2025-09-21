@@ -23,8 +23,9 @@ export const configOverrides = {
     config.externals.push("pino-pretty", "lokijs", "encoding");
     
     if (!isServer) {
-      // Completely ignore crypto and problematic modules
+      // Completely externalize AgentKit and all crypto dependencies for client
       config.externals.push(
+        "@coinbase/agentkit",
         "@hpke/core",
         "@hpke/common", 
         "@hpke/chacha20poly1305",
@@ -33,15 +34,18 @@ export const configOverrides = {
         "pino-pretty"
       );
       
-      // Use null-loader for any crypto modules that slip through
-      config.module.rules.push({
-        test: /node_modules\\/((@hpke|@privy-io|pino).*|.*chacha.*|.*crypto.*)\\.js$/,
-        use: 'null-loader',
-      });
+      // Ignore any crypto modules in node_modules using webpack's IgnorePlugin
+      const webpack = require('webpack');
+      config.plugins.push(
+        new webpack.IgnorePlugin({
+          resourceRegExp: /@hpke|@privy-io|chacha20poly1305/,
+        })
+      );
       
-      // Alias problematic modules to false
+      // Alias to empty modules
       config.resolve.alias = {
         ...config.resolve.alias,
+        '@coinbase/agentkit': false,
         '@hpke/core': false,
         '@hpke/common': false,
         '@hpke/chacha20poly1305': false,
