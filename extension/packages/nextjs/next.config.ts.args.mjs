@@ -12,7 +12,9 @@ export const configOverrides = {
       https: false,
       assert: false,
       os: false,
-      path: false
+      path: false,
+      buffer: false,
+      util: false
     };
     
     config.externals.push("pino-pretty", "lokijs", "encoding");
@@ -20,9 +22,18 @@ export const configOverrides = {
     // Fix for AgentKit crypto dependencies and pino logging
     if (!isServer) {
       config.module.rules.push({
-        test: /(@hpke\\/core|@hpke\\/common|pino)/,
+        test: /(@hpke|@coinbase\\/agentkit.*@privy-io|pino|chacha20poly1305)/,
         use: 'null-loader',
       });
+      
+      // Ignore specific problematic modules
+      config.resolve.alias = {
+        ...config.resolve.alias,
+        'pino-pretty': false,
+        '@hpke/core': false,
+        '@hpke/common': false,
+        '@hpke/chacha20poly1305': false,
+      };
     }
     return config;
   }`
