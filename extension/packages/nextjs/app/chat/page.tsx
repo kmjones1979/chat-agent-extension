@@ -33,16 +33,9 @@ export default function Chat() {
   const messagesContainerRef = useRef<HTMLDivElement>(null);
   const lastMessageCount = useRef(messages.length);
 
-  // Check if session exists and matches connected wallet
-  const isAuthenticated = session?.address && address && session.address.toLowerCase() === address.toLowerCase();
+  // Check if wallet is connected
+  const isAuthenticated = !!address;
 
-  // Debug logging
-  console.log("Chat Page Debug:", {
-    session: session?.address,
-    address,
-    sessionStatus,
-    isAuthenticated,
-  });
 
   // Load messages on mount
   useEffect(() => {
